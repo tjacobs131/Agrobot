@@ -6,7 +6,7 @@ package_name = 'agrobot_pkg'
 
 data_files = []
 data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
-data_files.append(('share/' + package_name + '/launch', ['launch/launch.py']))
+data_files.append(('share/' + package_name + '/launch', ['launch/launch_sim.py']))
 data_files.append(('share/' + package_name + '/worlds', ['worlds/my_world.wbt']))
 data_files.append(('share/' + package_name + '/resource', ['resource/agrobot.urdf']))
 data_files.append((os.path.join('share', package_name), glob('launch/*.launch.py')))
