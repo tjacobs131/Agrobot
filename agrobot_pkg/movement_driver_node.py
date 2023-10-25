@@ -42,12 +42,9 @@ class MovementDriver(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-    movementDriver = MovementDriver()
+    node = MovementDriver("movement_driver")
 
-    rclpy.spin(movementDriver)
+    rclpy.spin(node)
 
-    movementDriver.destroy_node()
+    node.destroy_node()
     rclpy.shutdown()
-
-if __name__ == '__main__':
-    main()

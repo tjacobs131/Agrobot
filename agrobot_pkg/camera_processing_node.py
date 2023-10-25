@@ -12,11 +12,7 @@ class CameraProcessingNode(Node):
             Image, 'raw_images', self.listener_callback, 10)
 
     def listener_callback(self, msg):
-        # Process image data here
-
-        # Publish marker type
-        # Publish nearest plant type and location
-        pass
+        print(msg.data)
 
 def main(args=None):
     rclpy.init(args=args)

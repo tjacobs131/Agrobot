@@ -34,25 +34,21 @@ def generate_launch_description():
         Node(
             package='agrobot_pkg',
             executable='camera_data',
-            namespace='camera',
             name='agrobot'
         ),
         Node(
             package='agrobot_pkg',
             executable='camera_processing',
-            namespace='camera',
             name='agrobot'
         ),
         Node(
             package='agrobot_pkg',
             executable='movement_controller',
-            namespace='camera',
             name='agrobot'
         ),
         Node(
             package='agrobot_pkg',
             executable='movement_driver',
-            namespace='camera',
             name='agrobot'
         ),
     ])
