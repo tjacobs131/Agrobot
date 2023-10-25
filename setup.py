@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'camera_data = agrobot_pkg.camera_data_node:main',
             'camera_processing = agrobot_pkg.camera_processing_node:main',
+            'movement_controller = agrobot_pkg.movement_controller_node:main',
         ],
     },
 )

@@ -13,15 +13,18 @@ class CameraProcessingNode(Node):
 
     def listener_callback(self, msg):
         # Process image data here
+
+        # Publish marker type
+        # Publish nearest plant type and location
         pass
 
 def main(args=None):
     rclpy.init(args=args)
-    CameraProcessingNode = CameraProcessingNode()
+    cameraProcessing = CameraProcessingNode()
 
-    rclpy.spin(CameraProcessingNode)
+    rclpy.spin(cameraProcessing)
 
-    CameraProcessingNode.destroy_node()
+    cameraProcessing.destroy_node()
     rclpy.shutdown()
 
 if __name__ == '__main__':
