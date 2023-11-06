@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="Agrobot">
     <webots>
-        <plugin type="agrobot_pkg.movement_driver_node.MovementDriverNode"/>
+        <plugin type="agrobot_pkg.movement_driver_node.MovementDriverNode" />
     </webots>
 </robot>

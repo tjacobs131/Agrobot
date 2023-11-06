@@ -1,24 +1,26 @@
 import os
+import pathlib
 import launch
+from launch_ros.actions import Node
 from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
 from webots_ros2_driver.webots_launcher import WebotsLauncher
 from webots_ros2_driver.webots_controller import WebotsController
-from launch_ros.actions import Node
+from webots_ros2_driver.utils import controller_url_prefix
 
 
 def generate_launch_description():
     package_dir = get_package_share_directory('agrobot_pkg')
-    robot_description_path = os.path.join(package_dir, 'resource', 'agrobot.urdf')
+    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', 'agrobot.urdf')).read_text()
 
     webots = WebotsLauncher(
         world=os.path.join(package_dir, 'worlds', 'my_world.wbt')
     )
 
     my_robot_driver = WebotsController(
-        robot_name='agrobot',
+        robot_name='Agrobot',
         parameters=[
-            {'robot_description': robot_description_path},
+            {'robot_description': robot_description},
         ]
     )
 
@@ -30,25 +32,5 @@ def generate_launch_description():
                 target_action=webots,
                 on_exit=[launch.actions.EmitEvent(event=launch.events.Shutdown())],
             )
-        ),
-        Node(
-            package='agrobot_pkg',
-            executable='camera_data',
-            name='agrobot'
-        ),
-        Node(
-            package='agrobot_pkg',
-            executable='camera_processing',
-            name='agrobot'
-        ),
-        Node(
-            package='agrobot_pkg',
-            executable='movement_controller',
-            name='agrobot'
-        ),
-        Node(
-            package='agrobot_pkg',
-            executable='movement_driver',
-            name='agrobot'
-        ),
+        )
     ])

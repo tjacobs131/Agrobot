@@ -1,11 +1,10 @@
 import rclpy
 from geometry_msgs.msg import Twist
-from rclpy.node import Node
 
 HALF_DISTANCE_BETWEEN_WHEELS = 0.045
 WHEEL_RADIUS = 0.025
 
-class MovementDriver(Node):
+class MovementDriverNode:
     def init(self, webots_node, properties):
         self.__robot = webots_node.robot
 
@@ -38,13 +37,3 @@ class MovementDriver(Node):
 
         self.__left_motor.setVelocity(command_motor_left)
         self.__right_motor.setVelocity(command_motor_right)
-
-def main(args=None):
-    rclpy.init(args=args)
-
-    node = MovementDriver("movement_driver")
-
-    rclpy.spin(node)
-
-    node.destroy_node()
-    rclpy.shutdown()
