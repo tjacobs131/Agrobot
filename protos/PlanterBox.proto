@@ -1,0 +1,23 @@
+#VRML_SIM R2022b utf8
+
+PROTO PlanterBox [
+  field SFVec3f    translation 0 0 0
+] {
+  Solid {
+    rotation -1 0 0 1.5708
+    translation IS translation
+    children [
+      Shape {
+        geometry Box {
+          size 1 0.2 1
+        }
+      }
+    ]
+    name "planter_box"
+    boundingObject Box {
+      size 1 0.2 1
+    }
+    physics Physics {
+    }
+  }
+}
