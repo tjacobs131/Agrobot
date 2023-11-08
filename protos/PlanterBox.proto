@@ -9,15 +9,13 @@ PROTO PlanterBox [
     children [
       Shape {
         geometry Box {
-          size 1 0.2 1
+          size 100 20 100
         }
       }
     ]
     name "planter_box"
     boundingObject Box {
-      size 1 0.2 1
-    }
-    physics Physics {
+      size 100 20 100
     }
   }
 }
