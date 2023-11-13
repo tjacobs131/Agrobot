@@ -19,27 +19,25 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.09466797046522717 0.6191123164564357 0.7795754709968375 0.47399286842069965
-  position -1386.715565989851 -242.23618971788403 342.16232302704464
+  orientation -0.028111941427640622 -0.025786144481606803 -0.999272131854953 1.6577717305151745
+  position 17.42 24.02149532652635 2.5200000000000102
   follow "Agrobot"
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-
 RectangleArena {
+  translation -2.67 0 0
   floorSize 200 200
   floorTileSize 10 10
   wallHeight 10
-
-  physics Physics{
-  }
 }
 Robot {
+  translation 20.52 -13.14 0.6
   children [
     Transform {
-      translation 0 0 50
+      translation 0 0 1
       rotation 1 0 0 1.5708
       scale 0.01 0.01 0.01
       children [
@@ -51,7 +49,7 @@ Robot {
           }
           geometry DEF MY_ROBOT_SHAPE Mesh {
             url [
-              "/home/tjacobs/ros2_ws/install/agrobot_pkg/share/agrobot_pkg/worlds/../resource/agrobot_model.obj"
+              "https://raw.githubusercontent.com/tjacobs131/Agrobot/main/resource/agrobot_model.obj"
             ]
           }
         }
@@ -64,11 +62,11 @@ Robot {
       }
       device [
         RotationalMotor {
-          name "wheel1"
+          name "left wheel motor"
         }
       ]
       endPoint Solid {
-        translation -31.62 -5.64019 53.11
+        translation -3.1 -0.5 1.5
         rotation 1 0 0 1.5708
         children [
           DEF WHEEL Shape {
@@ -86,7 +84,7 @@ Robot {
         ]
         boundingObject USE WHEEL
         physics Physics {
-          density 1000
+          density 500
         }
       }
     }
@@ -97,11 +95,11 @@ Robot {
       }
       device [
         RotationalMotor {
-          name "wheel1"
+          name "right wheel motor"
         }
       ]
       endPoint Solid {
-        translation -31.62 135.55 53.1101
+        translation -3.1 13.5 1.5
         rotation 1 0 0 1.5708
         children [
           DEF WHEEL Shape {
@@ -120,26 +118,64 @@ Robot {
         name "solid(1)"
         boundingObject USE WHEEL
         physics Physics {
-          density 1000
+          density 500
         }
+      }
+    }
+    Solid {
+      translation 9.32 0.07 0.54
+      children [
+        DEF SWIVEL Shape {
+          appearance PBRAppearance {
+            baseColor 0.9 0.9 0.9
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+          }
+        }
+      ]
+      name "swivelWheel1"
+      boundingObject USE SWIVEL
+      physics Physics {
+        mass 100
+      }
+    }
+    Solid {
+      translation 9.32 12.67 0.54
+      children [
+        DEF SWIVEL Shape {
+          appearance PBRAppearance {
+            baseColor 0.9 0.9 0.9
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+          }
+        }
+      ]
+      name "swivelWheel2"
+      boundingObject USE SWIVEL
+      physics Physics {
+        mass 100
       }
     }
   ]
   name "Agrobot"
   physics Physics {
-    mass 1000
+    mass 2
   }
   controller "<extern>"
 }
 PlanterBox {
-  translation -75 -75 2
+  translation -7.5 -7.5 0.2
 }
 PlanterBox {
-  translation 75 -75 2
+  translation 7.5 -7.5 0.2
 }
 PlanterBox {
-  translation -75 75 2
+  translation -7.5 7.5 0.2
 }
 PlanterBox {
-  translation 75 75 2
+  translation 7.5 7.5 0.2
 }
