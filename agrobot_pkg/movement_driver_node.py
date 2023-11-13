@@ -8,14 +8,14 @@ class MovementDriverNode:
     def init(self, webots_node, properties):
         self.__robot = webots_node.robot
 
-        self.__left_motor = self.__robot.getDevice('left wheel motor')
-        self.__right_motor = self.__robot.getDevice('right wheel motor')
+        # self.__left_motor = self.__robot.getDevice('left wheel motor')
+        # self.__right_motor = self.__robot.getDevice('right wheel motor')
 
-        self.__left_motor.setPosition(float('inf'))
-        self.__left_motor.setVelocity(0)
+        # self.__left_motor.setPosition(float('inf'))
+        # self.__left_motor.setVelocity(0)
 
-        self.__right_motor.setPosition(float('inf'))
-        self.__right_motor.setVelocity(0)
+        # self.__right_motor.setPosition(float('inf'))
+        # self.__right_motor.setVelocity(0)
 
         self.__target_twist = Twist()
 
@@ -35,5 +35,5 @@ class MovementDriverNode:
         command_motor_left = (forward_speed - angular_speed * HALF_DISTANCE_BETWEEN_WHEELS) / WHEEL_RADIUS
         command_motor_right = (forward_speed + angular_speed * HALF_DISTANCE_BETWEEN_WHEELS) / WHEEL_RADIUS
 
-        self.__left_motor.setVelocity(command_motor_left)
-        self.__right_motor.setVelocity(command_motor_right)
+        # self.__left_motor.setVelocity(command_motor_left)
+        # self.__right_motor.setVelocity(command_motor_right)

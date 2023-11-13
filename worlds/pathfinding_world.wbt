@@ -1,15 +1,15 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
-IMPORTABLE EXTERNPROTO "../protos/PlanterBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/tjacobs131/Agrobot/main/protos/PlanterBox.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.33185733874619844 -0.09874274160469809 0.9381474178937331 3.686018050088086
-  position 1.700313773507203 1.0549607538959629 3.4846240848267684
+  orientation 0.02150276629890961 0.5949328717959543 0.8034877155863137 0.1647543280557998
+  position -417.5767123240191 -35.71529332310166 110.85423351125232
   follow "Agrobot"
 }
 TexturedBackground {
@@ -23,8 +23,8 @@ Robot {
   children [
     Transform {
       translation 0 0 50
-      scale .1 .1 .1
       rotation 1 0 0 1.5708
+      scale 0.1 0.1 0.1
       children [
         Shape {
           appearance PBRAppearance {
@@ -33,7 +33,9 @@ Robot {
             metalness 0
           }
           geometry DEF MY_ROBOT_SHAPE Mesh {
-            url "../resource/agrobot_model.obj"
+            url [
+              "/home/tjacobs/ros2_ws/install/agrobot_pkg/share/agrobot_pkg/worlds/../resource/agrobot_model.obj"
+            ]
           }
         }
       ]
@@ -49,7 +51,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05 0.06 0
+        translation -31.62 -5.64019 53.11
         rotation 1 0 0 1.5708
         children [
           DEF WHEEL Shape {
@@ -59,8 +61,8 @@ Robot {
               metalness 0
             }
             geometry Cylinder {
-              height 0.02
-              radius 0.04
+              height 10
+              radius 20
               subdivision 24
             }
           }
@@ -70,13 +72,45 @@ Robot {
         }
       }
     }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 0.06 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+        }
+      ]
+      endPoint Solid {
+        translation -31.62 135.55 53.1101
+        rotation 1 0 0 1.5708
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 0.305882 0.898039 0.25098
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 10
+              radius 20
+              subdivision 24
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
   ]
+  name "Agrobot"
   boundingObject USE MY_ROBOT_SHAPE
   physics Physics {
-    
   }
   controller "<extern>"
-  name "Agrobot"
 }
 PlanterBox {
   translation -75 -75 2

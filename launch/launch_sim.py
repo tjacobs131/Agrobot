@@ -14,7 +14,7 @@ def generate_launch_description():
     robot_description = pathlib.Path(os.path.join(package_dir, 'resource', 'agrobot.urdf')).read_text()
 
     webots = WebotsLauncher(
-        world=os.path.join(package_dir, 'worlds', 'my_world.wbt')
+        world=os.path.join(package_dir, 'worlds', 'pathfinding_world.wbt')
     )
 
     my_robot_driver = WebotsController(

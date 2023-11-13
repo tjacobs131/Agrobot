@@ -7,7 +7,7 @@ package_name = 'agrobot_pkg'
 data_files = []
 data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
 data_files.append(('share/' + package_name + '/launch', ['launch/launch_sim.py']))
-data_files.append(('share/' + package_name + '/worlds', ['worlds/my_world.wbt']))
+data_files.append(('share/' + package_name + '/worlds', ['worlds/pathfinding_world.wbt']))
 data_files.append(('share/' + package_name + '/resource', ['resource/agrobot.urdf']))
 data_files.append(('share/' + package_name + '/resource', ['resource/agrobot_model.obj']))
 data_files.append(('share/' + package_name + '/protos', ['protos/PlanterBox.proto']))
