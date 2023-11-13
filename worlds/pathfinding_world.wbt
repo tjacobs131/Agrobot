@@ -2,29 +2,46 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/tjacobs131/Agrobot/main/protos/PlanterBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/released/projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+  ]
 }
 Viewpoint {
-  orientation 0.02150276629890961 0.5949328717959543 0.8034877155863137 0.1647543280557998
-  position -417.5767123240191 -35.71529332310166 110.85423351125232
+  orientation -0.09466797046522717 0.6191123164564357 0.7795754709968375 0.47399286842069965
+  position -1386.715565989851 -242.23618971788403 342.16232302704464
   follow "Agrobot"
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-Floor {
-  size 10000 10000
+
+RectangleArena {
+  floorSize 200 200
+  floorTileSize 10 10
+  wallHeight 10
+
+  physics Physics{
+  }
 }
 Robot {
   children [
     Transform {
       translation 0 0 50
       rotation 1 0 0 1.5708
-      scale 0.1 0.1 0.1
+      scale 0.01 0.01 0.01
       children [
         Shape {
           appearance PBRAppearance {
@@ -61,14 +78,15 @@ Robot {
               metalness 0
             }
             geometry Cylinder {
-              height 10
-              radius 20
+              height 1
+              radius 2
               subdivision 24
             }
           }
         ]
         boundingObject USE WHEEL
         physics Physics {
+          density 1000
         }
       }
     }
@@ -93,8 +111,8 @@ Robot {
               metalness 0
             }
             geometry Cylinder {
-              height 10
-              radius 20
+              height 1
+              radius 2
               subdivision 24
             }
           }
@@ -102,13 +120,14 @@ Robot {
         name "solid(1)"
         boundingObject USE WHEEL
         physics Physics {
+          density 1000
         }
       }
     }
   ]
   name "Agrobot"
-  boundingObject USE MY_ROBOT_SHAPE
   physics Physics {
+    mass 1000
   }
   controller "<extern>"
 }
