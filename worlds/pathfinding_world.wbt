@@ -16,6 +16,13 @@ WorldInfo {
       rollSound ""
       slideSound ""
     }
+    ContactProperties {
+      material1 "SwivelWheelMaterial"  # The contactMaterial you defined for the swivel wheels
+      coulombFriction 0 # The friction coefficient
+      bounce 0  # The restitution coefficient (0 means no bounce)
+      softERP 0.2  # The error reduction parameter (0 means no correction)
+      softCFM 0.001  # The constraint force mixing parameter (0 means a hard constraint)
+    }
   ]
 }
 Viewpoint {
@@ -34,7 +41,7 @@ RectangleArena {
   wallHeight 10
 }
 Robot {
-  translation 20.52 -13.14 0.6
+  translation 0 0 0.6
   children [
     Transform {
       translation 0 0 1
@@ -58,7 +65,9 @@ Robot {
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.05 0.06 0
+        anchor -3.1 -0.5 1.5
+        stopCFM 0.01
+        stopERP 1
       }
       device [
         RotationalMotor {
@@ -91,7 +100,9 @@ Robot {
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.05 0.06 0
+        anchor -3.1 13.5 1.5
+        stopCFM 0.01
+        stopERP 1
       }
       device [
         RotationalMotor {
@@ -115,7 +126,6 @@ Robot {
             }
           }
         ]
-        name "solid(1)"
         boundingObject USE WHEEL
         physics Physics {
           density 500
@@ -124,6 +134,7 @@ Robot {
     }
     Solid {
       translation 9.32 0.07 0.54
+      contactMaterial "SwivelWheelMaterial"
       children [
         DEF SWIVEL Shape {
           appearance PBRAppearance {
@@ -143,6 +154,7 @@ Robot {
     }
     Solid {
       translation 9.32 12.67 0.54
+      contactMaterial "SwivelWheelMaterial"
       children [
         DEF SWIVEL Shape {
           appearance PBRAppearance {
@@ -163,7 +175,7 @@ Robot {
   ]
   name "Agrobot"
   physics Physics {
-    mass 2
+    mass .1
   }
   controller "<extern>"
 }
