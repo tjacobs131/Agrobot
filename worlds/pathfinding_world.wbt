@@ -17,11 +17,22 @@ WorldInfo {
       slideSound ""
     }
     ContactProperties {
+      # Material for frictionless spheres
+
       material1 "SwivelWheelMaterial"  # The contactMaterial you defined for the swivel wheels
-      coulombFriction 0 # The friction coefficient
+      coulombFriction 0.02 # The friction coefficient
       bounce 0  # The restitution coefficient (0 means no bounce)
-      softERP 0.2  # The error reduction parameter (0 means no correction)
+      softERP 0.4 # The error reduction parameter (0 means no correction)
       softCFM 0.001  # The constraint force mixing parameter (0 means a hard constraint)
+    }
+    ContactProperties {
+      # Material for motorized wheels
+
+      material1 "DrivingWheelMaterial"  # The contactMaterial you defined for the swivel wheels
+      coulombFriction .2 # The friction coefficient
+      bounce 0  # The restitution coefficient (0 means no bounce)
+      softERP 0.8 # The error reduction parameter (0 means no correction)
+      softCFM 0.0001  # The constraint force mixing parameter (0 means a hard constraint)
     }
   ]
 }
@@ -41,7 +52,7 @@ RectangleArena {
   wallHeight 10
 }
 Robot {
-  translation 0 0 0.6
+  translation 0 1 2
   children [
     Transform {
       translation 0 0 1
@@ -72,11 +83,14 @@ Robot {
       device [
         RotationalMotor {
           name "left wheel motor"
+          maxVelocity 5000
+          maxTorque 200
         }
       ]
       endPoint Solid {
         translation -3.1 -0.5 1.5
-        rotation 1 0 0 1.5708
+        rotation 1 0 0 1.57084
+        contactMaterial "DrivingWheelMaterial"
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -107,11 +121,14 @@ Robot {
       device [
         RotationalMotor {
           name "right wheel motor"
+          maxVelocity 5000
+          maxTorque 200
         }
       ]
       endPoint Solid {
         translation -3.1 13.5 1.5
         rotation 1 0 0 1.5708
+        contactMaterial "DrivingWheelMaterial"
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -180,14 +197,14 @@ Robot {
   controller "<extern>"
 }
 PlanterBox {
-  translation -7.5 -7.5 0.2
+  translation -27.5 -7.5 0.2
 }
 PlanterBox {
-  translation 7.5 -7.5 0.2
+  translation -12.5 -7.5 0.2
 }
 PlanterBox {
-  translation -7.5 7.5 0.2
+  translation -27.5 7.5 0.2
 }
 PlanterBox {
-  translation 7.5 7.5 0.2
+  translation -12.5 7.5 0.2
 }

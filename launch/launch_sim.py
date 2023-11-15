@@ -17,16 +17,23 @@ def generate_launch_description():
         world=os.path.join(package_dir, 'worlds', 'pathfinding_world.wbt')
     )
 
-    my_robot_driver = WebotsController(
+    robot_driver = WebotsController(
         robot_name='Agrobot',
         parameters=[
             {'robot_description': robot_description},
         ]
     )
 
+    movement_controller = Node(
+        package="agrobot_pkg",
+        name="movement_controller_node",
+        executable="movement_controller_node"
+    )
+
     return LaunchDescription([
         webots,
-        my_robot_driver,
+        robot_driver,
+        movement_controller,
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=webots,

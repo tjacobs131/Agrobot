@@ -1,5 +1,9 @@
+import string
 import rclpy
 from rclpy.node import Node
+from geometry_msgs.msg import Twist
+from timeit import default_timer
+from std_msgs.msg import String
 
 class MovementControllerNode(Node):
 
@@ -8,27 +12,46 @@ class MovementControllerNode(Node):
     def __init__(self):
         super().__init__('movement_controller_node')
 
-        # Set up listeners
+        self.cmd_vel_pub = self.create_publisher(Twist, "/cmd_vel", 1)
+        
+        self.logger = self.get_logger()
+        self.logger.info("Start movement controller")
 
-        pass
+        self.start()
 
     def start(self):
 
-        # Robot starts in front of planter box
+        # Robot starts in front of planter box'
 
-        self.harvestRowOfPlanters(self)
+        start_time = default_timer()
+        while(True):
+            if(default_timer() - start_time > 10):
+                break
 
-        self.deliverCrops(self)
+        self.logger.info("Done waiting")
+        
+        self.move_cmd = Twist()
+        self.move_cmd.linear.x = -50.0
+        self.cmd_vel_pub.publish(self.move_cmd)
+
+        self.logger.info("Start moving")
+        
+        timer_period = 20
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+
+        self.harvestRowOfPlanters()
+
+        self.deliverCrops()
 
         # Position self to drive over row two
 
-        self.harvestRowOfPlanters(self)   
+        self.harvestRowOfPlanters()   
 
         # Drive backwards until planter boxes cleared
 
         # Position self to deliver plants
 
-        self.deliverCrops(self)
+        self.deliverCrops()
 
         # Drive forward until boxes cleared
 
@@ -67,6 +90,10 @@ class MovementControllerNode(Node):
             # empty seen marker list
 
             return
+    
+    def timer_callback(self):
+        self.move_cmd = Twist()
+        self.cmd_vel_pub.publish(self.move_cmd)
 
 
 def main(args=None):

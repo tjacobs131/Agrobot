@@ -32,6 +32,7 @@ setup(
     entry_points={
         'console_scripts': [
             'movement_driver_node = agrobot_pkg.movement_driver_node:main',
+            'movement_controller_node = agrobot_pkg.movement_controller_node:main',
         ],
     },
 )

@@ -1,5 +1,7 @@
+import string
 import rclpy
 from geometry_msgs.msg import Twist
+from rcl_interfaces.msg import Log
 
 HALF_DISTANCE_BETWEEN_WHEELS = 0.045
 WHEEL_RADIUS = 0.025
@@ -23,7 +25,12 @@ class MovementDriverNode:
         self.__node = rclpy.create_node('movement_driver_node')
         self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)
 
+        self.logger = self.__node.get_logger()
+        self.logger.info("Start movement driver")
+
+
     def __cmd_vel_callback(self, twist):
+        print("Command recieved")
         self.__target_twist = twist
 
     def step(self):
