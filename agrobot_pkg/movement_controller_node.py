@@ -10,33 +10,34 @@ class MovementControllerNode(Node):
     plantsCollected = 0
 
     def __init__(self):
+        # Set up node
         super().__init__('movement_controller_node')
 
+        # Set up publishers
         self.cmd_vel_pub = self.create_publisher(Twist, "/cmd_vel", 1)
         
-        self.logger = self.get_logger()
+        self.logger = self.get_logger() # Set up logger
         self.logger.info("Start movement controller")
 
-        self.start()
+        self.start() # Start pathfinding script
 
     def start(self):
 
         # Robot starts in front of planter box'
 
+        # Wait for simulation to finish setting up
         start_time = default_timer()
         while(True):
             if(default_timer() - start_time > 10):
                 break
-
-        self.logger.info("Done waiting")
-        
+            
         self.move_cmd = Twist()
-        self.move_cmd.linear.x = -50.0
+        self.move_cmd.linear.x = -80.0
         self.cmd_vel_pub.publish(self.move_cmd)
 
         self.logger.info("Start moving")
         
-        timer_period = 10
+        timer_period = 30
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
         self.harvestRowOfPlanters()

@@ -52,7 +52,7 @@ RectangleArena {
   wallHeight 10
 }
 Robot {
-  translation 0 1 2
+  translation -3 1 2
   children [
     Transform {
       translation 0 0 1
@@ -83,7 +83,15 @@ Robot {
           width 640
           height 480
           near 0.01
-          far 100    # Adjust if needed, it sets the maximum distance at which the camera can see objects
+          far 100    # sets the maximum distance at which the camera can see objects
+          recognition Recognition {
+            maxRange 10
+            maxObjects -1
+            occlusion 1
+            segmentation FALSE
+            frameColor 1 0 0
+            frameThickness 1
+          }
         }
       ]
     }
@@ -98,7 +106,7 @@ Robot {
         RotationalMotor {
           name "left wheel motor"
           maxVelocity 5000
-          maxTorque 200
+          maxTorque 500
         }
       ]
       endPoint Solid {
@@ -136,7 +144,7 @@ Robot {
         RotationalMotor {
           name "right wheel motor"
           maxVelocity 5000
-          maxTorque 200
+          maxTorque 500
         }
       ]
       endPoint Solid {

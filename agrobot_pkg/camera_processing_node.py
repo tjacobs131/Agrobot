@@ -8,11 +8,11 @@ class CameraProcessingNode(Node):
         super().__init__('camera_processing_node')
 
         # Subscribe to camera data
-        self.subscription = self.create_subscription(
-            Image, 'raw_images', self.listener_callback, 10)
+        self.image_subscription = self.create_subscription(
+            Image, 'camera_image', self.listener_callback, 10)
 
     def listener_callback(self, msg):
-        print(msg.data)
+        pass
 
 def main(args=None):
     rclpy.init(args=args)
