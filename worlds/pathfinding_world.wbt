@@ -73,6 +73,20 @@ Robot {
         }
       ]
     }
+    Transform {
+      translation -1 6 9  # Position of the camera relative to the robot
+      rotation 0 -1 0 -1.57081       # Orientation of the camera relative to the robot
+      children [
+        Camera {
+          name "detection_camera"
+          fieldOfView 0.7854
+          width 640
+          height 480
+          near 0.01
+          far 100    # Adjust if needed, it sets the maximum distance at which the camera can see objects
+        }
+      ]
+    }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0

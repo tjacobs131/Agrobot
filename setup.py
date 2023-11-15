@@ -31,7 +31,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'movement_driver_node = agrobot_pkg.movement_driver_node:main',
+            'simulation_controller_node = agrobot_pkg.simulation_controller_node:main',
             'movement_controller_node = agrobot_pkg.movement_controller_node:main',
         ],
     },
