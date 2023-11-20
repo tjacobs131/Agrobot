@@ -72,4 +72,4 @@ class SimulationControllerNode:
         self.logger.info("Amount of objects: " + str(len(detected_objects)))
 
         for obj in detected_objects:
-            self.logger.info(obj)
+            self.logger.info(str(obj.getId()))

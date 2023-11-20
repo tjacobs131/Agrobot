@@ -25,57 +25,62 @@ PROTO PlanterBox [
               size 10 0.8 10
             }
           },
-          Transform {
-            translation 5 -.5 -.5
-            scale 0.12 0.12 0.12
+          Solid { 
+            recognitionColors 1 0 0
             children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0.9 0.9 0.9
-                  roughness 1
-                  metalness 0
-                }
-                geometry DEF CARROT Mesh {
-                  url [
-                    "../resource/carrot.obj"
-                  ]
-                }
+              Transform {
+                translation 5 -.5 -.5
+                scale 0.12 0.12 0.12
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.9 0.9 0.9
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry DEF CARROT Mesh {
+                      url [
+                        "../resource/carrot.obj"
+                      ]
+                    }
+                  }
+                ]
               }
-            ]
-          },
-          Transform {
-            translation 2 -.5 3
-            scale 0.12 0.12 0.12
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0.9 0.9 0.9
-                  roughness 1
-                  metalness 0
-                }
-                geometry DEF CARROT Mesh {
-                  url [
-                    "../resource/carrot.obj"
-                  ]
-                }
-              }
-            ]
-          },
-          Transform {
-            translation -1 -.5 -3
-            scale 0.12 0.12 0.12
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0.9 0.9 0.9
-                  roughness 1
-                  metalness 0
-                }
-                geometry DEF CARROT Mesh {
-                  url [
-                    "../resource/carrot.obj"
-                  ]
-                }
+              Transform {
+                translation 2 -.5 3
+                scale 0.12 0.12 0.12
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.9 0.9 0.9
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry DEF CARROT Mesh {
+                      url [
+                        "../resource/carrot.obj"
+                      ]
+                    }
+                  }
+                ]
+              },
+              Transform {
+                translation -1 -.5 -3
+                scale 0.12 0.12 0.12
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.9 0.9 0.9
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry DEF CARROT Mesh {
+                      url [
+                        "../resource/carrot.obj"
+                      ]
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -126,5 +131,5 @@ PROTO PlanterBox [
     boundingObject Box {
       size 10 2 10
     }
-  }
+  },
 }
