@@ -2,7 +2,8 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/tjacobs131/Agrobot/main/protos/PlanterBox.proto"
+# EXTERNPROTO "https://raw.githubusercontent.com/tjacobs131/Agrobot/main/protos/PlanterBox.proto"
+EXTERNPROTO "../protos/PlanterBox.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/released/projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
@@ -79,18 +80,17 @@ Robot {
       children [
         Camera {
           name "detection_camera"
-          fieldOfView 0.7854
+          fieldOfView 1.5
           width 640
           height 480
           near 0.01
-          far 100    # sets the maximum distance at which the camera can see objects
+          far 1000    # sets the maximum distance at which the camera can see objects
           recognition Recognition {
-            maxRange 10
+            maxRange 1000
             maxObjects -1
-            occlusion 1
             segmentation FALSE
-            frameColor 1 0 0
-            frameThickness 1
+            frameColor 0 1 0
+            frameThickness 5
           }
         }
       ]
@@ -219,14 +219,14 @@ Robot {
   controller "<extern>"
 }
 PlanterBox {
-  translation -27.5 -7.5 0.2
+  translation -27.5 -7.5 1
 }
 PlanterBox {
-  translation -12.5 -7.5 0.2
+  translation -12.5 -7.5 1
 }
 PlanterBox {
-  translation -27.5 7.5 0.2
+  translation -27.5 7.5 1
 }
 PlanterBox {
-  translation -12.5 7.5 0.2
+  translation -12.5 7.5 1
 }

@@ -4,33 +4,127 @@ PROTO PlanterBox [
   field SFVec3f    translation 0 0 0
 ] {
   Solid {
-    rotation -1 0 0 1.5708
+    rotation 1 0 0 1.5708
     translation IS translation
-    recognitionColors {
-      Color { r 1 g 1 b 1 }
-    }
-    children [
-      Shape {
-        geometry Box {
-          size 10 2 10
-        }
-      }
-    ]
-    name "planter_box"
-    boundingObject Box {
-      size 10 1 10
-    }
-
     children [
       Solid {
-        rotation 0 0 0
-        translation 0 0 0
+        translation 0 -.7 0
+        children[
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              baseColorMap ImageTexture {
+                url [
+                  "../resource/soil_texture.jpg"
+                ]
+              }
+              roughness 0.8
+              metalness 0.2
+            }
+            geometry Box {
+              size 10 0.8 10
+            }
+          },
+          Transform {
+            translation 5 -.5 -.5
+            scale 0.12 0.12 0.12
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.9 0.9 0.9
+                  roughness 1
+                  metalness 0
+                }
+                geometry DEF CARROT Mesh {
+                  url [
+                    "../resource/carrot.obj"
+                  ]
+                }
+              }
+            ]
+          },
+          Transform {
+            translation 2 -.5 3
+            scale 0.12 0.12 0.12
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.9 0.9 0.9
+                  roughness 1
+                  metalness 0
+                }
+                geometry DEF CARROT Mesh {
+                  url [
+                    "../resource/carrot.obj"
+                  ]
+                }
+              }
+            ]
+          },
+          Transform {
+            translation -1 -.5 -3
+            scale 0.12 0.12 0.12
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.9 0.9 0.9
+                  roughness 1
+                  metalness 0
+                }
+                geometry DEF CARROT Mesh {
+                  url [
+                    "../resource/carrot.obj"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      Solid {  # Wall 1
+        translation 0 0 5  # Move half the box's length in the z direction
         children [
-          geometry Box {
-            size 10 2 0.5
+          Shape {
+            geometry Box {
+              size 10 2 0.5  # Wall size
+            }
+          }
+        ]
+      },
+      Solid {  # Wall 2
+        translation 0 0 -5  # Move half the box's length in the opposite z direction
+        children [
+          Shape {
+            geometry Box {
+              size 10 2 0.5  # Wall size
+            }
+          }
+        ]
+      },
+      Solid {  # Wall 3
+        translation 5 0 0  # Move half the box's width in the x direction
+        children [
+          Shape {
+            geometry Box {
+              size 0.5 2 10  # Wall size
+            }
+          }
+        ]
+      },
+      Solid {  # Wall 4
+        translation -5 0 0  # Move half the box's width in the opposite x direction
+        children [
+          Shape {
+            geometry Box {
+              size 0.5 2 10  # Wall size
+            }
           }
         ]
       }
     ]
+    name "planter_box"
+    boundingObject Box {
+      size 10 2 10
+    }
   }
 }

@@ -25,8 +25,7 @@ class SimulationControllerNode:
 
         self.__camera = self.__robot.getDevice('detection_camera') # Get camera attached to the robot
         self.__camera.enable(64)
-        self.__camera.recognitionEnable(10) # Enable object recognition
-        self.__camera.enableRecognitionSegmentation()
+        self.__camera.recognitionEnable(64) # Enable object recognition
 
         # Node setup
         rclpy.init(args=None)
@@ -46,7 +45,7 @@ class SimulationControllerNode:
         self.__target_twist = twist
 
     def step(self):
-        if not rclpy.ok(): # If node is terminated
+        if not rclpy.ok(): # If node is not running
             return
 
         rclpy.spin_once(self.__node, timeout_sec=0) # Run node
@@ -68,9 +67,9 @@ class SimulationControllerNode:
         msg.data = image
         self.__node.camera_publisher.publish(msg)
 
-        # Get and process detected objects
+
         detected_objects = self.__camera.getRecognitionObjects()
-        self.__camera.getRecognitionSegmentationImage()
-        self.__camera.saveRecognitionSegmentationImage("img.png", 0)
+        self.logger.info("Amount of objects: " + str(len(detected_objects)))
+
         for obj in detected_objects:
             self.logger.info(obj)
