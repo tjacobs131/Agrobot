@@ -2,15 +2,14 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-# EXTERNPROTO "https://raw.githubusercontent.com/tjacobs131/Agrobot/main/protos/PlanterBox.proto"
-EXTERNPROTO "../protos/PlanterBox.proto"
+EXTERNPROTO "/home/tjacobs/ros2_ws/install/agrobot_pkg/share/agrobot_pkg/protos/PlanterBox.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/released/projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
   contactProperties [
     ContactProperties {
       coulombFriction [
-        8
+        16
       ]
       softCFM 1e-05
       bumpSound ""
@@ -18,28 +17,27 @@ WorldInfo {
       slideSound ""
     }
     ContactProperties {
-      # Material for frictionless spheres
-
-      material1 "SwivelWheelMaterial"  # The contactMaterial you defined for the swivel wheels
-      coulombFriction 0.02 # The friction coefficient
-      bounce 0  # The restitution coefficient (0 means no bounce)
-      softERP 0.4 # The error reduction parameter (0 means no correction)
-      softCFM 0.001  # The constraint force mixing parameter (0 means a hard constraint)
+      material1 "SwivelWheelMaterial"
+      coulombFriction [
+        0.02
+      ]
+      bounce 0
+      softERP 0.4
     }
     ContactProperties {
-      # Material for motorized wheels
-
-      material1 "DrivingWheelMaterial"  # The contactMaterial you defined for the swivel wheels
-      coulombFriction .2 # The friction coefficient
-      bounce 0  # The restitution coefficient (0 means no bounce)
-      softERP 0.8 # The error reduction parameter (0 means no correction)
-      softCFM 0.0001  # The constraint force mixing parameter (0 means a hard constraint)
+      material1 "DrivingWheelMaterial"
+      coulombFriction [
+        0.2
+      ]
+      bounce 0
+      softERP 0.8
+      softCFM 0.0001
     }
   ]
 }
 Viewpoint {
-  orientation -0.028111941427640622 -0.025786144481606803 -0.999272131854953 1.6577717305151745
-  position 17.42 24.02149532652635 2.5200000000000102
+  orientation 0.1463485649752217 0.0032621327267319308 -0.9892277068601378 3.0975277603259155
+  position 94.87093414760439 4.657880953919827 20.50926984803317
   follow "Agrobot"
 }
 TexturedBackground {
@@ -53,7 +51,7 @@ RectangleArena {
   wallHeight 10
 }
 Robot {
-  translation -3 1.5 2
+  translation -3 1.3 0.5
   children [
     Transform {
       translation 0 0 1
@@ -74,24 +72,20 @@ Robot {
         }
       ]
     }
-    Transform {
-      translation -1 6 9  # Position of the camera relative to the robot
-      rotation 0 -1 0 -1.57081       # Orientation of the camera relative to the robot
+    Pose {
+      translation -1 6 9
+      rotation 0 -1 0 -1.57081
       children [
         Camera {
           name "detection_camera"
           fieldOfView 0.76
           width 640
           height 480
-          near 0.01
-          far 1000    # sets the maximum distance at which the camera can see objects
+          far 1000
           recognition Recognition {
             maxRange 1000
-            maxObjects -1
-            occlusion 1
-            segmentation FALSE
             frameColor 0 1 0
-            frameThickness 5
+            frameThickness 3
           }
         }
       ]
@@ -100,20 +94,19 @@ Robot {
       jointParameters HingeJointParameters {
         axis 0 1 0
         anchor -3.1 -0.5 1.5
-        stopCFM 0.01
         stopERP 1
+        stopCFM 0.01
       }
       device [
         RotationalMotor {
           name "left wheel motor"
           maxVelocity 5000
-          maxTorque 500
+          maxTorque 800
         }
       ]
       endPoint Solid {
         translation -3.1 -0.5 1.5
         rotation 1 0 0 1.57084
-        contactMaterial "DrivingWheelMaterial"
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -128,9 +121,10 @@ Robot {
             }
           }
         ]
+        contactMaterial "DrivingWheelMaterial"
         boundingObject USE WHEEL
         physics Physics {
-          density 500
+          density 300
         }
       }
     }
@@ -138,20 +132,19 @@ Robot {
       jointParameters HingeJointParameters {
         axis 0 1 0
         anchor -3.1 13.5 1.5
-        stopCFM 0.01
         stopERP 1
+        stopCFM 0.01
       }
       device [
         RotationalMotor {
           name "right wheel motor"
           maxVelocity 5000
-          maxTorque 500
+          maxTorque 800
         }
       ]
       endPoint Solid {
         translation -3.1 13.5 1.5
         rotation 1 0 0 1.5708
-        contactMaterial "DrivingWheelMaterial"
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
@@ -166,15 +159,15 @@ Robot {
             }
           }
         ]
+        contactMaterial "DrivingWheelMaterial"
         boundingObject USE WHEEL
         physics Physics {
-          density 500
+          density 300
         }
       }
     }
     Solid {
-      translation 9.32 0.07 0.54
-      contactMaterial "SwivelWheelMaterial"
+      translation 9.32 -0.5 0.54
       children [
         DEF SWIVEL Shape {
           appearance PBRAppearance {
@@ -183,18 +176,19 @@ Robot {
             metalness 0
           }
           geometry Sphere {
+            radius .8
           }
         }
       ]
       name "swivelWheel1"
+      contactMaterial "SwivelWheelMaterial"
       boundingObject USE SWIVEL
       physics Physics {
-        mass 10
+        mass 5
       }
     }
     Solid {
-      translation 9.32 12.67 0.54
-      contactMaterial "SwivelWheelMaterial"
+      translation 9.32 13.5 0.54
       children [
         DEF SWIVEL Shape {
           appearance PBRAppearance {
@@ -203,19 +197,21 @@ Robot {
             metalness 0
           }
           geometry Sphere {
+            radius .8
           }
         }
       ]
       name "swivelWheel2"
+      contactMaterial "SwivelWheelMaterial"
       boundingObject USE SWIVEL
       physics Physics {
-        mass 10
+        mass 5
       }
     }
   ]
   name "Agrobot"
   physics Physics {
-    mass .1
+    mass 50
   }
   controller "<extern>"
 }

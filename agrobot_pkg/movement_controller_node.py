@@ -37,7 +37,7 @@ class MovementControllerNode(Node):
 
         self.logger.info("Start moving")
         
-        timer_period = 30
+        timer_period = 20
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
         self.harvestRowOfPlanters()
