@@ -10,7 +10,7 @@ data_files.append(('share/' + package_name + '/launch', ['launch/launch_sim.py']
 data_files.append(('share/' + package_name + '/worlds', ['worlds/pathfinding_world.wbt']))
 data_files.append(('share/' + package_name + '/resource', ['resource/agrobot.urdf']))
 data_files.append(('share/' + package_name + '/resource', ['resource/agrobot_model.obj']))
-data_files.append(('share/' + package_name + '/resource', ['resource/carrot.obj']))
+data_files.append(('share/' + package_name + '/resource', ['resource/carrot_model.obj']))
 data_files.append(('share/' + package_name + '/protos', ['protos/PlanterBox.proto']))
 data_files.append((os.path.join('share', package_name), glob('launch/*.launch_sim.py')))
 data_files.append(('share/' + package_name + '/resource', ['resource/soil_texture.jpg']))
