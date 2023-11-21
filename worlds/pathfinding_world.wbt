@@ -53,7 +53,7 @@ RectangleArena {
   wallHeight 10
 }
 Robot {
-  translation -3 1 2
+  translation -3 1.65 2
   children [
     Transform {
       translation 0 0 1
@@ -80,7 +80,7 @@ Robot {
       children [
         Camera {
           name "detection_camera"
-          fieldOfView 0.7
+          fieldOfView 0.76
           width 640
           height 480
           near 0.01
