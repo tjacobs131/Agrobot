@@ -31,8 +31,8 @@ class SimulationControllerNode:
         self.__target_twist = Twist()
 
         self.__camera = self.__robot.getDevice('detection_camera') # Get camera attached to the robot
-        self.__camera.enable(20)
-        self.__camera.recognitionEnable(20) # Enable object recognition
+        self.__camera.enable(64)
+        self.__camera.recognitionEnable(64) # Enable object recognition
 
         # Node setup
         rclpy.init(args=None)

@@ -37,6 +37,7 @@ PROTO PlanterBox [
             scale 0.5 0.5 0.5
             children [
               Shape {
+                castShadows FALSE
                 appearance PBRAppearance {
                   baseColor 0.92 0.53 0.13
                   roughness 1
@@ -51,6 +52,18 @@ PROTO PlanterBox [
             ]
           }
         ]
+        boundingObject Transform {
+          rotation 1 0 0 1.5708
+          translation 3 .5 -.5
+          children [
+            Cylinder {
+              height 3
+              radius .4
+              subdivision 8
+              top TRUE
+            }
+          ]
+        }
       }
       Solid {
         recognitionColors 0 1 0
@@ -60,6 +73,7 @@ PROTO PlanterBox [
             scale 0.5 0.5 0.5
             children [
               Shape {
+                castShadows FALSE
                 appearance PBRAppearance {
                   baseColor 0.92 0.53 0.13
                   roughness 1
@@ -74,6 +88,18 @@ PROTO PlanterBox [
             ]
           },
         ]
+        boundingObject Transform {
+          rotation 1 0 0 1.5708
+          translation 0 .5 3
+          children [
+            Cylinder {
+              height 3
+              radius .4
+              subdivision 8
+              top TRUE
+            }
+          ]
+        }
       }
       Solid {
         recognitionColors 0 0 1
@@ -83,6 +109,7 @@ PROTO PlanterBox [
             scale 0.5 0.5 0.5
             children [
               Shape {
+                castShadows FALSE
                 appearance PBRAppearance {
                   baseColor 0.92 0.53 0.13
                   roughness 1
@@ -97,6 +124,18 @@ PROTO PlanterBox [
             ]
           }
         ]
+        boundingObject Transform {
+          translation -3 .5 -3
+          rotation 1 0 0 1.5708
+          children [
+            Cylinder {
+              top TRUE
+              height 3
+              radius .4
+              subdivision 8
+            }
+          ]
+        }
       }
 
 

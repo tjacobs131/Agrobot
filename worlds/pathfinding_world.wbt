@@ -53,7 +53,7 @@ RectangleArena {
   wallHeight 10
 }
 Robot {
-  translation -3 1.65 2
+  translation -3 1.5 2
   children [
     Transform {
       translation 0 0 1
@@ -88,6 +88,7 @@ Robot {
           recognition Recognition {
             maxRange 1000
             maxObjects -1
+            occlusion 1
             segmentation FALSE
             frameColor 0 1 0
             frameThickness 5
@@ -188,7 +189,7 @@ Robot {
       name "swivelWheel1"
       boundingObject USE SWIVEL
       physics Physics {
-        mass 100
+        mass 10
       }
     }
     Solid {
@@ -208,7 +209,7 @@ Robot {
       name "swivelWheel2"
       boundingObject USE SWIVEL
       physics Physics {
-        mass 100
+        mass 10
       }
     }
   ]
