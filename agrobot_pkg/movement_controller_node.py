@@ -8,6 +8,7 @@ from std_msgs.msg import String
 class MovementControllerNode(Node):
 
     plantsCollected = 0
+    detected_object_ids = []
 
     def __init__(self):
         # Set up node
@@ -15,11 +16,21 @@ class MovementControllerNode(Node):
 
         # Set up publishers
         self.cmd_vel_pub = self.create_publisher(Twist, "/cmd_vel", 1)
+
+        # Set up subscribers
+        self.create_subscription(String, 'detected_objects', self.__update_objects, 10)
         
         self.logger = self.get_logger() # Set up logger
         self.logger.info("Start movement controller")
 
         self.start() # Start pathfinding script
+
+    def __update_objects(self, objects):
+        detected_objects = objects.data.split(',')
+        for object in detected_objects:
+            if (object != "" and object != "0"):
+                self.logger.info("Detected object: " + object)
+                self.detected_object_ids.append(int(object))
 
     def start(self):
 
@@ -37,9 +48,6 @@ class MovementControllerNode(Node):
 
         self.logger.info("Start moving")
         
-        timer_period = 20
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-
         self.harvestRowOfPlanters()
 
         self.deliverCrops()
@@ -58,14 +66,42 @@ class MovementControllerNode(Node):
 
 
     def harvestRowOfPlanters(self):
-        # while( End row marker not detected )):
+        self.last_object_ids = [] # Needed for simulation
+        self.harvest_timer = self.create_timer(0.1, self.__loopRowOfPlanters) # Harvesting loop
+
+    def __loopRowOfPlanters(self):
+
+        self.logger.info("Harvest loop")
+        self.logger.info("Last object: " + str(self.last_object_ids))
 
         # Move until plant is detected
 
-        for i in range(3):
-            # Slow down and keep moving until nearest plant is in correct place
+        if len(self.detected_object_ids) == 0:
+            self.logger.info("No objects")
+            return
 
-            # Stop when nearest plant is in correct place
+        if len(self.detected_object_ids) > 0 and not self.detected_object_ids in self.last_object_ids:
+            self.last_object_ids += self.detected_object_ids[0]
+            self.logger.info("Stopping")
+
+            self.harvest_timer.cancel()
+
+            self.move_cmd = Twist()
+            self.cmd_vel_pub.publish(self.move_cmd)
+
+            # Start gripper service
+            start_time = default_timer()
+            while True:
+                if default_timer() - start_time > 10:
+                    self.move_cmd = Twist()
+                    self.move_cmd.linear.x = -40.0
+                    self.cmd_vel_pub.publish(self.move_cmd)
+                    break
+            
+            self.harvest_timer.reset()
+
+        for i in range(3):
+            # Correct position based on detected crop
 
             # Harvest plant
 
@@ -91,10 +127,6 @@ class MovementControllerNode(Node):
             # empty seen marker list
 
             return
-    
-    def timer_callback(self):
-        self.move_cmd = Twist()
-        self.cmd_vel_pub.publish(self.move_cmd)
 
 
 def main(args=None):

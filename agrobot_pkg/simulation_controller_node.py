@@ -94,5 +94,3 @@ class SimulationControllerNode:
 
         if len(self.detected_object_ids) > 0:
             self.logger.info("Amount of objects: " + str(len(self.detected_object_ids)))
-            for obj_id in self.detected_object_ids:
-                self.logger.info(str(obj_id))
