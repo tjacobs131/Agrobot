@@ -1,0 +1,175 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "../protos/PlanterBox.proto"
+EXTERNPROTO "../protos/Robotiq2f140Gripper.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.1192372993266275 0.96124936190858 -0.24856011482062068 0.9257519661796142
+  position -2.374674006824195 0.9300974686591986 7.722890271636889
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 200 200
+  floorTileSize 10 10
+}
+Robot {
+  translation 0 -0.5 1.33
+  rotation 1 0 0 1.5708
+  children [
+    DEF arm Group {
+      children [
+        SliderJoint {
+          jointParameters JointParameters {
+            axis 0 1 0
+          }
+          device [
+            LinearMotor {
+              name "lmY"
+            }
+          ]
+          endPoint Solid {
+            translation 0 0 -0.02
+            children [
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis 0 0 1
+                }
+                device [
+                  RotationalMotor {
+                    name "rm"
+                  }
+                ]
+                endPoint Solid {
+                  translation 0.7 2.99 0
+                  rotation 0 0 1 1.5708
+                  children [
+                    Robotiq2f140Gripper {
+                      translation 4.40798e-08 0.34987 -0.52
+                      rotation -0.9999999999957905 2.1271399999910458e-06 1.9734399999916926e-06 1.57079
+                    }
+                    Transform {
+                      translation -1e-06 0.0599991 -0.520002
+                      rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 2.0944
+                      scale 2 2 6
+                      children [
+                        Shape {
+                          appearance PBRAppearance {
+                          }
+                          geometry Cylinder {
+                            height 0.1
+                            radius 0.05
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                  name "wrist"
+                }
+              }
+              Transform {
+                translation 0.7 8 -0.53
+                scale 10 20 10
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.698039 0.698039 0.698039
+                    }
+                    geometry Mesh {
+                      url [
+                        "../resource/alum_profiles/50x50 long.dae"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+            name "arm"
+          }
+        }
+      ]
+    }
+    DEF frame Group {
+      children [
+        Transform {
+          translation -0.03 8.75 0
+          rotation 0 0 1 -1.5707953071795862
+          scale 10 29 10
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.698039 0.698039 0.698039
+              }
+              geometry Mesh {
+                url [
+                  "../resource/alum_profiles/50x50 long.dae"
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 7 3.65 0
+          scale 10 20 10
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.698039 0.698039 0.698039
+              }
+              geometry Mesh {
+                url [
+                  "../resource/alum_profiles/50x50 long.dae"
+                ]
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -7 3.65 0
+          scale 10 20 10
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.698039 0.698039 0.698039
+              }
+              geometry Mesh {
+                url [
+                  "../resource/alum_profiles/50x50 long.dae"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  controller "armY"
+}
+DEF carrot Transform {
+  translation 0 0.05 1.55
+  rotation 1 0 0 1.5708
+  scale 0.4 0.4 0.4
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+      }
+      geometry Mesh {
+        url [
+          "../resource/carrot_model.obj"
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+PlanterBox {
+  translation 0 0 1.1
+}
