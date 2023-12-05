@@ -1,7 +1,9 @@
 import string
 import rclpy
+import ctypes
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
+from agrobot_msgs.srv import SimCropLocation
 from rcl_interfaces.msg import Log
 from sensor_msgs.msg import Image
 from controller import Camera, CameraRecognitionObject, Robot, Supervisor
@@ -9,11 +11,9 @@ from controller import Camera, CameraRecognitionObject, Robot, Supervisor
 HALF_DISTANCE_BETWEEN_WHEELS = 0.045
 WHEEL_RADIUS = 0.025
 
-
-
 class SimulationControllerNode:
     def init(self, webots_node, properties):        
-        self.detected_object_ids = []
+        self.detected_objects = {}
 
         self.supervisor = Supervisor()
 
@@ -46,6 +46,9 @@ class SimulationControllerNode:
         self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)
         self.__node.create_subscription(String, 'detected_objects', self.__update_objects, 10)
 
+        # Set up services
+        self.__node.create_service(SimCropLocation, 'get_object_position', self.__get_object_position_callback)
+
         self.logger = self.__node.get_logger() # Logger setup
         self.logger.info("Start movement driver")
 
@@ -54,13 +57,25 @@ class SimulationControllerNode:
         self.__target_twist = twist
 
     def __update_objects(self, objects):
-        self.detected_object_ids = []
-        detected_objects = objects.data.split(',')
+        detected_objects = {}
+        detected_objects = objects.data.split(';')
         for object in detected_objects:
-            if (object != "" and object != "0"):
-                self.detected_object_ids.append(int(object))
+            if(object != ""):
+                obj_id, obj_x, obj_y = object.split(",")
+                if obj_id and obj_id != "0":
+                    self.detected_objects[obj_id] = [float(obj_x), float(obj_y)]
 
-
+    def __get_object_position_callback(self, request, response):
+        object_id = request.object_id
+        self.logger.info("Get object position: " + str(object_id))
+        if str(object_id) in self.detected_objects.keys():
+            response.position = self.detected_objects[str(object_id)]
+            self.logger.info("Object found: " + str(response.position))
+        else:
+            raise Exception('Object not found')
+        
+        self.logger.info("Returning")
+        return response
 
     def step(self):
         if not rclpy.ok(): # If node is not running
@@ -87,10 +102,13 @@ class SimulationControllerNode:
 
         # Publish detected objects
         detected_objects = self.__camera.getRecognitionObjects()
-        msg = String()
-        for obj in detected_objects:
-            msg.data += str(obj.getId()) + ","
-        self.__node.detected_objects_publisher.publish(msg)
 
-        if len(self.detected_object_ids) > 0:
-            self.logger.info("Amount of objects: " + str(len(self.detected_object_ids)))
+        if len(detected_objects) > 0:
+            msg = String()
+            for obj in detected_objects:
+                msg.data += str(obj.getId()) + ","
+                position_list = [obj.getPosition()[i] for i in range(3)]
+                msg.data += str(position_list[0]) + ","
+                msg.data += str(position_list[2]) + ";"
+                
+            self.__node.detected_objects_publisher.publish(msg)

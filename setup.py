@@ -24,7 +24,8 @@ setup(
     install_requires=['setuptools',
                       'rclpy',
                       'geometry_msgs',
-                      'webots_ros2_driver'],
+                      'webots_ros2_driver'
+                      'agrobot_msgs'],
     zip_safe=True,
     maintainer='tjacobs',
     maintainer_email='tjacobs@todo.todo',
