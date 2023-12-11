@@ -36,6 +36,8 @@ setup(
         'console_scripts': [
             'simulation_controller_node = agrobot_pkg.simulation_controller_node:main',
             'movement_controller_node = agrobot_pkg.movement_controller_node:main',
+            'vision_processing_node = agrobot_pkg.vision_processing_node:detect_object',
+            'subscribe_test = agrobot_pkg.subscribe_test:subscribe_to_crop_info',
         ],
     },
 )

@@ -110,5 +110,6 @@ class SimulationControllerNode:
                 position_list = [obj.getPosition()[i] for i in range(3)]
                 msg.data += str(position_list[0]) + ","
                 msg.data += str(position_list[2]) + ";"
+
                 
             self.__node.detected_objects_publisher.publish(msg)
