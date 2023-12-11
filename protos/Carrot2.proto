@@ -1,0 +1,51 @@
+#VRML_SIM R2022b utf8
+
+PROTO Carrot2 [
+  field SFVec3f    solidTranslation    0 0 0
+  field SFVec3f    BObjectTranslation  0 0 0
+  field SFRotation BObjectRotation     0 0 1 0
+  field SFVec3f    boxSize             1 1 1
+  field SFFloat    bodyMass            1
+] {
+  Solid {
+    translation 0 0 0
+    children [
+      Transform {
+      translation IS solidTranslation
+      rotation 1 0 0 1.5708
+      scale 0.5 0.5 0.5
+        children [
+            Shape {
+              appearance PBRAppearance {
+                  baseColor 0.92 0.53 0.13
+                  roughness 1
+                  metalness 0
+              }
+              geometry Mesh {
+                url [
+                "../../../vm_dev/Agrobot/resource/carrot_model.obj"
+                ]
+              }
+               castShadows FALSE
+            }
+        ]
+      }
+    ]
+    boundingObject Transform {
+      translation IS BObjectTranslation
+      rotation IS BObjectRotation
+      children [
+        appearance PBRAppearance {
+          baseColor 0 0 0
+        }
+        Box {
+          size IS boxSize
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass IS bodyMass
+    }
+  }
+}
