@@ -7,5 +7,5 @@ centralWidgetVisible: 1
 projectionMode: PERSPECTIVE
 renderingMode: PLAIN
 orthographicViewHeight: 6.33168
-textFiles: 3 "controllers/armX/armX.py" "controllers/armY/armY.py" "controllers/wrist/wrist.py" "protos/Robotiq2f140Gripper.proto"
+textFiles: 4 "../../vm_dev/Agrobot/controllers/armX/armX.py" "../../vm_dev/Agrobot/controllers/armY/armY.py" "../../vm_dev/Agrobot/controllers/wrist/wrist.py" "../../vm_dev/Agrobot/protos/Robotiq2f140Gripper.proto" "../../vm_dev/Agrobot/protos/PlanterBox.proto"
 consoles: Console:All:All

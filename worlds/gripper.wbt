@@ -1,0 +1,91 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "../protos/PlanterBox.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.09502745615112004 0.15698337877207494 -0.9830188204539883 1.10387015802842
+  position -2.837033836366046 3.2258832109320523 1.964258694917792
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 40 40
+  floorTileSize 10 10
+}
+PlanterBox {
+  translation 0 0 1
+}
+DEF arm Robot {
+  translation -0.8 0 0.61
+  children [
+    DEF profile Transform {
+      translation -1.07 -4.3843e-07 1.85
+      rotation 1 9.5898e-09 -9.58979e-09 -1.5707953071795862
+      scale 4 4 4
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 0.4
+              diffuseColor 0.545098 0.545098 0.545098
+              shininess 0
+            }
+          }
+          geometry Mesh {
+            url [
+              "../resource/alum_profiles/50x50 long.dae"
+            ]
+          }
+        }
+      ]
+    }
+    DEF wrist HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 1.07 0 -0.81
+      }
+      device [
+        RotationalMotor {
+          name "wrist_motor"
+        }
+      ]
+      endPoint Solid {
+        translation -1.07 0 0.81
+        rotation 1 0 0 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry Cylinder {
+              height 0.15
+              radius 0.05
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+DEF carrot Transform {
+  translation 0 0 0.6
+  rotation 1 0 0 1.5708
+  scale 0.4 0.4 0.4
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.666667 0.333333 0
+      }
+      geometry Mesh {
+        url [
+          "../resource/carrot_model(unoptimized).obj"
+        ]
+      }
+    }
+  ]
+}
