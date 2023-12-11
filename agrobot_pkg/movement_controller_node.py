@@ -13,6 +13,10 @@ class MovementControllerNode(Node):
 
     plantsCollected = 0
     detected_objects = {}
+    target_position_offset = -0.8
+
+    detected_set = set()
+    harvested_set = set()
 
     def __init__(self):
         # Set up node
@@ -54,7 +58,7 @@ class MovementControllerNode(Node):
                 break
             
         self.move_cmd = Twist()
-        self.move_cmd.linear.x = -80.0
+        self.move_cmd.linear.x = -50.0
         self.cmd_vel_pub.publish(self.move_cmd)
 
         self.logger.info("Start moving")
@@ -78,16 +82,23 @@ class MovementControllerNode(Node):
 
     def harvestRowOfPlanters(self):
         self.harvested_object_ids = [] # Needed for simulation
-        self.harvest_timer = self.create_timer(0.1, self.__loopRowOfPlanters) # Harvesting loop
+        cb_group = ReentrantCallbackGroup()
+        self.harvest_timer = self.create_timer(1, self.__loopRowOfPlanters, callback_group=cb_group) # Harvesting loop
 
     def __loopRowOfPlanters(self):
         # Move until plant is detected
+        self.logger.info("Harvesting row")
 
-        detected_set = set(self.detected_objects.keys())
-        harvested_set = set(self.harvested_object_ids)
+        for key in self.detected_objects.keys():
+            self.detected_set.add(key)
+        for id in self.harvested_object_ids:
+            self.harvested_set.add(id)
 
         # Find elements in detected_set not in harvested_set
-        new_elements = detected_set.difference(harvested_set)
+        new_elements = self.detected_set.difference(self.harvested_set)
+
+        for item in self.harvested_set:
+            self.logger.info("Harvested object: " + str(item))
 
         for item in new_elements:
             self.logger.info("New object: " + str(item))
@@ -95,12 +106,14 @@ class MovementControllerNode(Node):
 
         # If new_elements is not empty, append its elements to harvested_object_ids
         if new_elements:
-            self.harvested_object_ids.extend(list(new_elements))
+            self.harvest_timer.cancel()
+            self.harvested_object_ids.append(new_elements.pop())
 
             self.logger.info("Detected crop, stopping")
-            self.harvest_timer.cancel()
 
+            # Apply braking force
             self.move_cmd = Twist()
+            self.move_cmd.linear.x = 40.0
             self.cmd_vel_pub.publish(self.move_cmd)
 
             # Find nearest object
@@ -108,9 +121,11 @@ class MovementControllerNode(Node):
             closest_obj_id = None
             closest_x_diff = None
 
-            for object_id in detected_set:
+            for object_id in self.detected_set:
                 position = self.detected_objects[object_id]
                 x_diff = target_x - position[0]  # Calculate the difference between target_x and the object's x position
+
+                self.logger.info("X pos: " + str(position[0]))
 
                 # If this object is closer to target_x than the current closest object, update closest_obj_id and closest_x_diff
                 if closest_obj_id is None or x_diff < closest_x_diff:
@@ -120,64 +135,77 @@ class MovementControllerNode(Node):
             self.logger.info("Closest object: " + str(closest_obj_id))
             self.logger.info("Closest x diff: " + str(closest_x_diff))
 
-            # Wait for robot to stop moving
+            # Keep braking until robot stops
             start_time = default_timer()
             while True:
-                if default_timer() - start_time > 8:
+                if default_timer() - start_time > 4:
                     break
-            
-            # Adjust position
-            self.adjust_position(closest_obj_id=closest_obj_id)
 
-            # Start gripper service
-
-            self.harvest_timer.reset()
-
-    def adjust_position(self, closest_obj_id):
-            # Get object position
-            crop_location = self.get_crop_position(int(closest_obj_id))
-
-            self.logger.info("Adjusting position")
-
-            # Calculate time to move
-            target_time = abs(crop_location.position[1]) * 60
-
-            if(crop_location.position[1] < 0):
-                # Move forward
-                self.move_cmd = Twist()
-                self.move_cmd.linear.x = 20.0
-                self.cmd_vel_pub.publish(self.move_cmd)
-
-                # Calculate time to move forward
-                start_time = default_timer()
-                self.logger.info("Target time: " + str(target_time))
-                while True:
-                    if default_timer() - start_time > target_time:
-                        break
-            else: 
-                # Move backwards
-                self.move_cmd = Twist()
-                self.move_cmd.linear.x = -20.0
-                self.cmd_vel_pub.publish(self.move_cmd)
-
-                # Calculate time to move backwards
-                start_time = default_timer()
-                self.logger.info("Target time: " + str(target_time))
-                while True:
-                    if default_timer() - start_time > target_time:
-                        break
-            
-            # Stop
             self.move_cmd = Twist()
             self.cmd_vel_pub.publish(self.move_cmd)
 
-            # Wait for robot to stop moving
             start_time = default_timer()
             while True:
-                if default_timer() - start_time > 2:
+                if default_timer() - start_time > 3:
                     break
+            
+            # Adjust position
+            self.logger.info("Adjusting position")
+            self.target_position = self.get_crop_position(int(closest_obj_id))
+            self.target_x = self.target_position.position[1]
+            self.target_x += self.target_position_offset
+            self.adjust_position()
 
+            self.logger.info("Adjusting position")
+            self.target_position = self.get_crop_position(int(closest_obj_id))
+            self.target_x = self.target_position.position[1]
+            self.target_x += self.target_position_offset
+            self.adjust_position()
 
+            self.harvest_timer.reset()
+
+    def adjust_position(self):
+        self.logger.info("Adjusting position")
+
+        self.logger.info("Target position: " + str(self.target_position.position))
+
+        # Calculate time to move
+        target_time = abs(self.target_x) * 3
+
+        if(self.target_x < 0):
+            # Move forward
+            self.move_cmd = Twist()
+            self.move_cmd.linear.x = -20.0
+            self.cmd_vel_pub.publish(self.move_cmd)
+
+            # Calculate time to move forward
+            start_time = default_timer()
+            self.logger.info("Target time: " + str(target_time))
+            while True:
+                if default_timer() - start_time > target_time:
+                    break
+        else: 
+            # Move backwards
+            self.move_cmd = Twist()
+            self.move_cmd.linear.x = 20.0
+            self.cmd_vel_pub.publish(self.move_cmd)
+
+            # Calculate time to move backwards
+            start_time = default_timer()
+            self.logger.info("Target time: " + str(target_time))
+            while True:
+                if default_timer() - start_time > target_time:
+                    break
+        
+        # Stop
+        self.move_cmd = Twist()
+        self.cmd_vel_pub.publish(self.move_cmd)
+
+        # Wait for robot to stop moving
+        start_time = default_timer()
+        while True:
+            if default_timer() - start_time > target_time + 1:
+                break
 
     def get_crop_position(self, object_id):
         self.get_object_position_request.object_id = object_id

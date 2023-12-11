@@ -4,6 +4,7 @@ import ctypes
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 from agrobot_msgs.srv import SimCropLocation
+from agrobot_msgs.msg import VisionPublishClosestCrop
 from rcl_interfaces.msg import Log
 from sensor_msgs.msg import Image
 from controller import Camera, CameraRecognitionObject, Robot, Supervisor
@@ -41,6 +42,7 @@ class SimulationControllerNode:
         # Set up publishers
         self.__node.camera_publisher = self.__node.create_publisher(Image, 'camera_image', 10)
         self.__node.detected_objects_publisher = self.__node.create_publisher(String, 'detected_objects', 10)
+        self.__node.closest_crop_publisher = self.__node.create_publisher(VisionPublishClosestCrop, 'detected_crop', 1)
 
         # Set up subscribers
         self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)

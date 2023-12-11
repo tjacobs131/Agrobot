@@ -18,8 +18,7 @@ class VisionControllerNode(Node):
 
     def timer_callback(self): # Runs periodically
         # Get image data
-        image_data = '...'  # Replace this with code to get image data
-
+        
         msg = VisionPublishClosestCrop()
         msg.crop_type = ""
         msg.crop_x = 0.0
