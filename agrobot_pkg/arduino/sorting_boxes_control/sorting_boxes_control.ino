@@ -108,20 +108,22 @@ void loop() {
       int targetBox = 0;
       for (int i = 0; i < sizeof(part); i++) {
         switch (part[i]) {
+          
           case 'O': // Box should be opened
-              Serial.print("Opening box: ");
-              Serial.println(targetBox);
-              break;
+            Serial.print("Opening box: ");
+            Serial.println(targetBox);
+            break;
           case 'C': // Box should be closed
-              Serial.print("Closing box: ");
-              Serial.println(targetBox);
-              break;
+            Serial.print("Closing box: ");
+            Serial.println(targetBox);
+            break;
+
           default: // Determine target box
-              targetBox = part[0] - '0';
-              if(targetBox >= 1 && targetBox <= 4){
-                continue;
-              }
-              break;
+            targetBox = part[0] - '0';
+            if(targetBox >= 1 && targetBox <= 4){
+              continue;
+            }
+            break;
         }
       }
 
