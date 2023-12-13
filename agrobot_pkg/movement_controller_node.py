@@ -123,7 +123,7 @@ class MovementControllerNode(Node):
 
             for object_id in self.detected_set:
                 position = self.detected_objects[object_id]
-                x_diff = target_x - position[0]  # Calculate the difference between target_x and the object's x position
+                x_diff = target_x - position[1]  # Calculate the difference between target_x and the object's x position
 
                 self.logger.info("X pos: " + str(position[0]))
 
