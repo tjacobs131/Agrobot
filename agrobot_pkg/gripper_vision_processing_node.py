@@ -4,13 +4,10 @@ import numpy as np
 from rclpy.node import Node
 from std_msgs.msg import Int64MultiArray
 
-global crop_x
-global crop_y
-
 def detect_crop():
     cap = cv2.VideoCapture(0) # Open the camera
     ret, frame = cap.read()  # Read a frame from the camera
-    segmented_frame = apply_segmentation(frame) # Apply segmentation to the frame
+    segmented_frame, crop_x, crop_y = apply_segmentation(frame) # Apply segmentation to the frame
     
     # Display the segmented frame
     cv2.imshow('Color Segmentation', segmented_frame)
@@ -81,11 +78,8 @@ def apply_segmentation(frame):
             (int(point_x) - line_length, int(point_y) + line_length), (0, 0, 255), 2)
     print(f"Center point coordinates: ({point_x}, {point_y})")
     
-    crop_x = point_x
-    crop_y = point_y
-    
     # Returns the final processed img + the center point of the crop (x, y)
-    return img
+    return img, point_x, point_y
 
 
 def cannyImg(img):
