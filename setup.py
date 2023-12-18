@@ -25,6 +25,7 @@ setup(
                       'rclpy',
                       'geometry_msgs',
                       'webots_ros2_driver'
+                      'odrive_can',
                       'agrobot_msgs'],
     zip_safe=True,
     maintainer='tjacobs',

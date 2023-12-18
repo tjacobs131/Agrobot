@@ -1,3 +1,4 @@
+import math
 import string
 import rclpy
 import ctypes
@@ -106,12 +107,31 @@ class SimulationControllerNode:
         detected_objects = self.__camera.getRecognitionObjects()
 
         if len(detected_objects) > 0:
+            # Find closest object
+            target_x = 1.15
+            closest_obj = None
+            for obj in detected_objects:
+                current_x = obj.getPosition()[2]
+                if closest_obj == None:
+                    closest_obj = obj
+                    continue;
+                elif abs(math.dist(closest_obj.getPosition()[2], target_x)) > abs(math.dist(obj.getPosition()[2], target_x)):
+                    # Current object is closer to target than closest
+                    closest_obj = obj
+            
+            if closest_obj != None:
+                msg = VisionPublishClosestCrop()
+                msg.crop_type = "lettuce"
+                msg.crop_x = closest_obj.getPosition()[2]
+                msg.crop_y = closest_obj.getPosition()[1]
+
+                self.__node.closest_crop_publisher.publish(msg)
+
             msg = String()
             for obj in detected_objects:
                 msg.data += str(obj.getId()) + ","
                 position_list = [obj.getPosition()[i] for i in range(3)]
                 msg.data += str(position_list[0]) + ","
                 msg.data += str(position_list[2]) + ";"
-
                 
             self.__node.detected_objects_publisher.publish(msg)

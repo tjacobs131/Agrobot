@@ -94,7 +94,7 @@ void loop() {
 
   // Process buffer
   receiveBuffer[receiveBufferSize] = 0;
-  if (receiveBuffer[0] == '!') // Check buffer contains command
+  if (receiveBuffer[0] == '!') // Check buffer starts with command symbol
   {
     // Remove command character
     String commandString = String(receiveBuffer);
@@ -108,7 +108,7 @@ void loop() {
       int targetBox = 0;
       for (int i = 0; i < sizeof(part); i++) {
         switch (part[i]) {
-          
+
           case 'O': // Box should be opened
             Serial.print("Opening box: ");
             Serial.println(targetBox);
@@ -119,9 +119,11 @@ void loop() {
             break;
 
           default: // Determine target box
-            targetBox = part[0] - '0';
-            if(targetBox >= 1 && targetBox <= 4){
+            targetBox = part[0] - '0'; // Convert from char to int
+            if(targetBox >= 1 && targetBox <= 4){ // If targetBox is in expected range
               continue;
+            } else{
+              targetBox = 0
             }
             break;
         }
